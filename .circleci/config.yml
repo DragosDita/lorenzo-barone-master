@@ -34,7 +34,6 @@
 #   say-hello-workflow:
 #     jobs:
 #       - say-hello
-
 version: 2.1
 workflows:
   commit-test-build-deploy:
@@ -76,7 +75,7 @@ jobs:
           name: Install dependencies and run tests
           command: |
             echo "Installing dependencies..."
-            pip install pytest pytest-junit
+            pip install pytest
 
             echo "Running tests..."
             pytest --junitxml=test-results.xml
