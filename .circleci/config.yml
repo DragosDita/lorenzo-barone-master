@@ -34,6 +34,8 @@
 #   say-hello-workflow:
 #     jobs:
 #       - say-hello
+
+
 version: 2.1
 workflows:
   commit-test-build-deploy:
@@ -42,12 +44,12 @@ workflows:
       - tests:
           requires:
             - commit
-      - build:
-          requires:
+      - builds: # Corrected job name
+          requires: # Corrected job name
             - tests
       - deploy:
           requires:
-            - build
+            - builds  # Corrected job name
 
 jobs:
   commit:
@@ -95,6 +97,20 @@ jobs:
             # Output the number of tests
             echo "Total tests: $test_count"
       
+
+      # Add your build steps here
+      - run:
+          name: Build and test
+          command: |
+            echo "Building and testing..."
+            # Insert your build and test commands here
+
+  builds: # Corrected job name
+    docker:
+      - image: circleci/python:3.8
+
+    steps:
+      - checkout
 
       # Add your build steps here
       - run:
