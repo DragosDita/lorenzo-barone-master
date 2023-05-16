@@ -34,7 +34,6 @@
 #   say-hello-workflow:
 #     jobs:
 #       - say-hello
-
 version: 2.1
 workflows:
   commit-test-build-deploy:
@@ -71,7 +70,6 @@ jobs:
 
     steps:
       - checkout
-
 
       # Add your test steps here
       - run:
