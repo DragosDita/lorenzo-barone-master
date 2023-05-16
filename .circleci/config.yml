@@ -36,7 +36,6 @@
 #       - say-hello
 
 version: 2.1
-
 workflows:
   commit-test-build-deploy:
     jobs:
@@ -78,7 +77,11 @@ jobs:
           name: Run tests
           command: |
             echo "Running tests..."
-            python manage.py test lorenzo_barone
+            # Insert your test commands here
+
+      # Store the test results
+      - store_test_results:
+          path: test-reports
 
   build:
     docker:
