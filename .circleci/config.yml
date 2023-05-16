@@ -72,23 +72,31 @@ jobs:
     steps:
       - checkout
 
+
       # Add your test steps here
       - run:
           name: Run tests
           command: |
             echo "Running tests..."
-            # Insert your test commands here
-
-      # Store the test results
-      - store_test_results:
-          path: test-reports
-
-  build:
-    docker:
-      - image: circleci/python:3.8
-
-    steps:
-      - checkout
+            test_output=$(python manage.py test lorenzo_barone 2>&1)
+            test_result=$?
+            
+            # Count the number of tests
+            test_count=$(echo "$test_output" | grep -oP "(?<=Ran )\d+")
+            
+            # Check if any tests failed
+            if [[ $test_result != 0 ]]; then
+              echo "Tests failed!"
+            else
+              echo "Tests passed!"
+            fi
+            
+            # Display the test results
+            echo "$test_output"
+            
+            # Output the number of tests
+            echo "Total tests: $test_count"
+      
 
       # Add your build steps here
       - run:
