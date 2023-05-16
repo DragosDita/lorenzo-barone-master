@@ -35,7 +35,6 @@
 #     jobs:
 #       - say-hello
 
-
 version: 2.1
 workflows:
   commit-test-build-deploy:
@@ -74,8 +73,11 @@ jobs:
       - checkout
       # Add your test steps here
       - run:
-          name: Run tests
+          name: Install dependencies and run tests
           command: |
+            echo "Installing dependencies..."
+            pip install pytest pytest-junit
+
             echo "Running tests..."
             pytest --junitxml=test-results.xml
 
