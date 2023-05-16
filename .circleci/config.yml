@@ -44,23 +44,22 @@ workflows:
       - tests:
           requires:
             - commit
-        post-steps:
-          - store_test_results:
-              path: test-results.xml
+          post-steps:
+            - store_test_results:
+                path: test-results.xml
       - build:
           requires:
             - tests
       - deploy:
           requires:
             - build
+
 jobs:
   commit:
     docker:
       - image: circleci/python:3.8
-
     steps:
       - checkout
-
       # Add your commit steps here
       - run:
           name: Commit changes
@@ -71,32 +70,20 @@ jobs:
   tests:
     docker:
       - image: circleci/python:3.8
-
     steps:
       - checkout
-
       # Add your test steps here
       - run:
           name: Run tests
           command: |
             echo "Running tests..."
             pytest --junitxml=test-results.xml
-      
 
-      # Add your build steps here
-      - run:
-          name: Build and test
-          command: |
-            echo "Building and testing..."
-            # Insert your build and test commands here
-
-  builds: # Corrected job name
+  build:
     docker:
       - image: circleci/python:3.8
-
     steps:
       - checkout
-
       # Add your build steps here
       - run:
           name: Build and test
@@ -107,10 +94,8 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:3.8
-
     steps:
       - checkout
-
       # Add your deployment steps here
       - run:
           name: Deploy to production
