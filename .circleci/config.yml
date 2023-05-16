@@ -36,6 +36,7 @@
 #       - say-hello
 
 version: 2.1
+
 workflows:
   commit-test-build-deploy:
     jobs:
@@ -77,7 +78,7 @@ jobs:
           name: Run tests
           command: |
             echo "Running tests..."
-            # Insert your test commands here
+            python manage.py test lorenzo_barone
 
   build:
     docker:
