@@ -3,7 +3,7 @@ from django.test import TestCase
 class lorenzo_baroneTestCase(TestCase):
     def test_basic_addition(self):
         # Basic addition test
-        result = 1 + 2
+        result = 1 + 1
         self.assertEqual(result, 2, "Addition result is incorrect")
 
     def test_negative_numbers(self):
