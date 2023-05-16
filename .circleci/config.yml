@@ -44,13 +44,15 @@ workflows:
       - tests:
           requires:
             - commit
-      - builds: # Corrected job name
-          requires: # Corrected job name
+        post-steps:
+          - store_test_results:
+              path: test-results.xml
+      - build:
+          requires:
             - tests
       - deploy:
           requires:
-            - builds  # Corrected job name
-
+            - build
 jobs:
   commit:
     docker:
@@ -78,15 +80,7 @@ jobs:
           name: Run tests
           command: |
             echo "Running tests..."
-            test_output=$(python manage.py test lorenzo_barone --no-input)
-            exit_code=$?
-            echo "$test_output"
-            if [[ $exit_code != 0 ]]; then
-              echo "Tests failed!"
-              exit $exit_code
-            else
-              echo "Tests passed!"
-            fi
+            pytest --junitxml=test-results.xml
       
 
       # Add your build steps here
