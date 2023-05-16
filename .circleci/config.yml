@@ -87,6 +87,7 @@ jobs:
             # Check if any tests failed
             if [[ $test_result != 0 ]]; then
               echo "Tests failed!"
+              exit 1
             else
               echo "Tests passed!"
             fi
@@ -96,9 +97,9 @@ jobs:
             
             # Output the number of tests
             echo "Total tests: $test_count"
-      
+          
 
-      # Add your build steps here
+          # Add your build steps here
       - run:
           name: Build and test
           command: |
