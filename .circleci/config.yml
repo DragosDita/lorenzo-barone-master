@@ -5,12 +5,15 @@ workflows:
   commit-test-build-deploy:
     jobs:
       - tests
-      - build:
+      - commit:
           requires:
             - tests
-          filters:
-            branches:
-              ignore: /.*/  # Skip the build job if tests fail
+      - build:
+          requires:
+            - commit
+      - deploy:
+          requires:
+            - build
 
 jobs:
   tests:
@@ -31,6 +34,18 @@ jobs:
               circleci step halt
             fi
 
+  commit:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - checkout
+      # Add your commit steps here
+      - run:
+          name: Commit changes
+          command: |
+            echo "Committing changes..."
+            # Insert your commit commands here
+
   build:
     docker:
       - image: circleci/python:3.10
@@ -43,3 +58,14 @@ jobs:
             echo "Building and testing..."
             # Insert your build and test commands here
 
+  deploy:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - checkout
+      # Add your deployment steps here
+      - run:
+          name: Deploy to production
+          command: |
+            echo "Deploying to production..."
+            # Insert your deployment commands here
