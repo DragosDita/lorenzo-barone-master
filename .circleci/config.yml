@@ -43,8 +43,8 @@ jobs:
             echo "Installing dependencies..."
             python manage.py test lorenzo_barone
 
-            echo "Running tests..."
-            pytest --junitxml=test-results.xml --junitprefix=TEST-
+#            echo "Running tests..."
+#            pytest --junitxml=test-results.xml --junitprefix=TEST-
 
   build:
     docker:
