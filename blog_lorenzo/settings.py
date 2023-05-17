@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lorenzo_barone.apps.LorenzoBaroneConfig',
-    # 'lorenzo_barone',
+    'lorenzo_barone',
     'members',
     'ckeditor',
 ]
