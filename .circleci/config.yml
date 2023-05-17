@@ -11,10 +11,9 @@ workflows:
           filters:
             branches:
               ignore: /.*/  # Skip the build job if tests fail
-          post-steps:
-            - deploy:
-                requires:
-                  - build
+      - deploy:
+          requires:
+            - build
 
 jobs:
   tests:
