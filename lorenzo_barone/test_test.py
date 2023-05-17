@@ -6,7 +6,7 @@ class TestLorenzoBarone(TestCase):
 
     def test_basic_addition(self):
         # Basic addition test
-        result = 1 + 2
+        result = 1 + 3
         print("1 + 1 =", result)
         self.assertEqual(result, 2, "1 + 1 = 2")
         print("-----------------------------------------------------------------------")
