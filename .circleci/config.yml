@@ -44,6 +44,10 @@ jobs:
             pip install -r requirements.txt
             python manage.py test lorenzo_barone 
 
+          post-steps:
+            - store_test_results:
+                path: test-result.xml
+
   build:
     docker:
       - image: circleci/python:3.10
