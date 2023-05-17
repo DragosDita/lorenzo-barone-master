@@ -39,10 +39,10 @@ jobs:
           name: Install dependencies and run tests
           command: |
             echo "Installing dependencies..."
-            pip install pytest pytest-junit
+            pip install pytest pytest-xml
 
             echo "Running tests..."
-            pytest --junitxml=test-results.xml
+            pytest --junitxml=test-results.xml --junit-prefix=TEST-
 
   build:
     docker:
