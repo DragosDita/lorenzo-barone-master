@@ -45,32 +45,28 @@ jobs:
           command: |
             echo "Committing changes..."
             # Insert your commit commands here
-build:
-  docker:
-    - image: circleci/python:3.10
-  steps:
-    - checkout
 
-    - run:
-        name: Install dependencies
-        command: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+  build:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - checkout
 
-    - run:
-        name: Run database migrations
-        command: |
-          python manage.py migrate
+      - run:
+          name: Install dependencies
+          command: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
 
-    - run:
-        name: Collect static files
-        command: |
-          python manage.py collectstatic --noinput
+      - run:
+          name: Run database migrations
+          command: |
+            python manage.py migrate
 
-    - run:
-        name: Start the server
-        command: |
-          python manage.py runserver 0.0.0.0:8000
+      - run:
+          name: Collect static files
+          command: |
+            python manage.py collectstatic --noinput
   
 
   deploy:
