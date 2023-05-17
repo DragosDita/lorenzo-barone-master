@@ -11,9 +11,7 @@ workflows:
           filters:
             branches:
               ignore: /.*/  # Skip the build job if tests fail
-      - deploy:
-          requires:
-            - build
+          when: <<pipeline.parameters.test_passed>>
 
 jobs:
   tests:
@@ -27,7 +25,15 @@ jobs:
           command: |
             echo "Installing dependencies..."
             pip install -r requirements.txt
-            python manage.py test lorenzo_barone || circleci step halt
+            python manage.py test lorenzo_barone | tee test-results.txt
+            test_result=$?
+            if [ $test_result -ne 0 ]; then
+              echo "Tests failed. Halting pipeline..."
+              circleci step halt
+            else
+              echo "Tests passed. Proceeding with the pipeline..."
+              echo "test_passed=true" >> $BASH_ENV
+            fi
 
   build:
     docker:
@@ -41,14 +47,8 @@ jobs:
             echo "Building and testing..."
             # Insert your build and test commands here
 
-  deploy:
-    docker:
-      - image: circleci/python:3.10
-    steps:
-      - checkout
-      # Add your deployment steps here
-      - run:
-          name: Deploy to production
-          command: |
-            echo "Deploying to production..."
-            # Insert your deployment commands here
+parameters:
+  test_passed:
+    type: boolean
+    default: false
+
