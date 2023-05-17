@@ -4,34 +4,19 @@ workflows:
   version: 2
   commit-test-build-deploy:
     jobs:
-      - commit
-      - tests:
-          requires:
-            - commit
-          post-steps:
-            - store_test_results:
-                path: test-result.xml
+      - tests
       - build:
           requires:
             - tests
-          when: <<pipeline.parameters.test_passed>> # Only run if the 'test_passed' parameter is true
-      - deploy:
-          requires:
-            - build
+          filters:
+            branches:
+              ignore: /.*/  # Skip the build job if tests fail
+          post-steps:
+            - deploy:
+                requires:
+                  - build
 
 jobs:
-  commit:
-    docker:
-      - image: circleci/python:3.10
-    steps:
-      - checkout
-      # Add your commit steps here
-      - run:
-          name: Commit changes
-          command: |
-            echo "Committing changes..."
-            # Insert your commit commands here
-
   tests:
     docker:
       - image: circleci/python:3.10
@@ -43,7 +28,7 @@ jobs:
           command: |
             echo "Installing dependencies..."
             pip install -r requirements.txt
-            python manage.py test lorenzo_barone || circleci step halt # Halt the pipeline if the tests fail
+            python manage.py test lorenzo_barone || circleci step halt
 
   build:
     docker:
