@@ -42,10 +42,7 @@ jobs:
           command: |
             echo "Installing dependencies..."
             pip install -r requirements.txt
-            python manage.py test lorenzo_barone
-
-#            echo "Running tests..."
-#            pytest --junitxml=test-results.xml --junitprefix=TEST-
+            python manage.py test lorenzo_barone | tee test-results.txt
 
   build:
     docker:
