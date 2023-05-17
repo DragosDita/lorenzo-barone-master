@@ -1,5 +1,7 @@
 version: 2.1
+
 workflows:
+  version: 2
   commit-test-build-deploy:
     jobs:
       - commit
@@ -39,10 +41,10 @@ jobs:
           name: Install dependencies and run tests
           command: |
             echo "Installing dependencies..."
-            pip install pytest pytest-xml
+            pip install pytest
 
             echo "Running tests..."
-            pytest --junitxml=test-results.xml --junit-prefix=TEST-
+            pytest --junitxml=test-results.xml --junitprefix=TEST-
 
   build:
     docker:
