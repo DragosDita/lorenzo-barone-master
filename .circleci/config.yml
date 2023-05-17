@@ -11,7 +11,6 @@ workflows:
           filters:
             branches:
               ignore: /.*/  # Skip the build job if tests fail
-          when: <<pipeline.parameters.test_passed>>
 
 jobs:
   tests:
@@ -30,9 +29,6 @@ jobs:
             if [ $test_result -ne 0 ]; then
               echo "Tests failed. Halting pipeline..."
               circleci step halt
-            else
-              echo "Tests passed. Proceeding with the pipeline..."
-              echo "test_passed=true" >> $BASH_ENV
             fi
 
   build:
@@ -46,9 +42,4 @@ jobs:
           command: |
             echo "Building and testing..."
             # Insert your build and test commands here
-
-parameters:
-  test_passed:
-    type: boolean
-    default: false
 
