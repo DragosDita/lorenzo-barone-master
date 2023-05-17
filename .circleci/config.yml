@@ -41,7 +41,9 @@ jobs:
           name: Install dependencies and run tests
           command: |
             echo "Installing dependencies..."
+            pip install django
             pip install pytest
+            pytest
 
             echo "Running tests..."
             pytest --junitxml=test-results.xml --junitprefix=TEST-
