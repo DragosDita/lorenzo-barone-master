@@ -41,6 +41,7 @@ jobs:
           name: Install dependencies and run tests
           command: |
             echo "Installing dependencies..."
+            pip install django
             python manage.py test lorenzo_barone
 
 #            echo "Running tests..."
