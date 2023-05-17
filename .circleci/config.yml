@@ -10,7 +10,7 @@ workflows:
             - commit
           post-steps:
             - store_test_results:
-                path: test-results.xml
+                path: test-result.xml
       - build:
           requires:
             - tests
@@ -43,7 +43,6 @@ jobs:
             echo "Installing dependencies..."
             pip install -r requirements.txt
             python manage.py test lorenzo_barone 
-            
 
   build:
     docker:
