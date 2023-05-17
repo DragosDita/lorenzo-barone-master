@@ -10,7 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
+#
+
+
+# Add the project's main directory to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "lorenzo-barone-master")))
+
+# Update the import statement to point to the correct settings module
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blog_lorenzo.settings")
+
+#
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
