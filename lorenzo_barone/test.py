@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+
 class lorenzo_baroneTestCase(TestCase):
     def test_basic_addition(self):
         # Basic addition test
