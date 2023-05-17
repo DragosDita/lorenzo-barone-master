@@ -41,6 +41,7 @@ jobs:
           name: Install dependencies and run tests
           command: |
             echo "Installing dependencies..."
+            pip install --upgrade pip
             pip install -r requirements.txt
             python -m xmlrunner discover --output-file test-results.xml
 
