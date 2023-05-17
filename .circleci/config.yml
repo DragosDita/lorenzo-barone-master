@@ -42,11 +42,7 @@ jobs:
           command: |
             echo "Installing dependencies..."
             pip install -r requirements.txt
-            python manage.py test lorenzo_barone 
-
-          post-steps:
-            - store_test_results:
-                path: test-result.xml
+            python manage.py test lorenzo_barone --xml=test-result.xml
 
   build:
     docker:
