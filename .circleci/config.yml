@@ -42,7 +42,8 @@ jobs:
           command: |
             echo "Installing dependencies..."
             pip install -r requirements.txt
-            python manage.py test lorenzo_barone --settings=blog_lorenzo.settings.test | tee test-results.txt
+            python manage.py test lorenzo_barone 
+            
 
   build:
     docker:
