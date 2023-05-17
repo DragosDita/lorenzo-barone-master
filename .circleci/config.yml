@@ -47,16 +47,25 @@ jobs:
             # Insert your commit commands here
 
   build:
-    docker:
-      - image: circleci/python:3.10
     steps:
       - checkout
-      # Add your build steps here
+
       - run:
-          name: Build and test
+          name: Install dependencies
           command: |
-            echo "Building and testing..."
-            # Insert your build and test commands here
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+
+      - run:
+          name: Run database migrations
+          command: |
+            python manage.py migrate
+
+      - run:
+          name: Collect static files
+          command: |
+            python manage.py collectstatic --noinput
+  
 
   deploy:
     docker:
