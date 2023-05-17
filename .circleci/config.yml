@@ -14,6 +14,7 @@ workflows:
       - build:
           requires:
             - tests
+          when: <<pipeline.parameters.test_passed>> # Only run if the 'test_passed' parameter is true
       - deploy:
           requires:
             - build
@@ -42,7 +43,7 @@ jobs:
           command: |
             echo "Installing dependencies..."
             pip install -r requirements.txt
-            python manage.py test lorenzo_barone 
+            python manage.py test lorenzo_barone || circleci step halt # Halt the pipeline if the tests fail
 
   build:
     docker:
