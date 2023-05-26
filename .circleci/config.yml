@@ -67,10 +67,10 @@ jobs:
           name: Deploy to PythonAnywhere
           command: |
             echo "Deploying to PythonAnywhere..."
-            ssh user@dragosSDA.pythonanywhere.com "cd /home/dragosSDA/lorenzo-barone-master && git pull"
+            ssh -o StrictHostKeyChecking=no user@dragosSDA.pythonanywhere.com "cd /home/dragosSDA/lorenzo-barone-master && git pull"
+
       - run:
           name: Get CPU Quota Info
           command: |
             echo "Retrieving CPU quota info from PythonAnywhere API..."
             python get_cpu_quota.py  # Replace with the appropriate filename of your Python script
-  
