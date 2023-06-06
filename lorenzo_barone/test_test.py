@@ -10,6 +10,7 @@ class TestLorenzoBarone(TestCase):
         print("1 + 1 =", result)
         self.assertEqual(result, 2, "1 + 1 = 2")
         print("-----------------------------------------------------------------------")
+
     def test_negative_numbers(self):
         # Test negative numbers
         result = -5 + 10
