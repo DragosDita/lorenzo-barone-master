@@ -1,0 +1,81 @@
+version: 2.1
+
+workflows:
+  version: 2
+  test-commit-build-deploy:
+    jobs:
+      - tests
+      - commit:
+          requires:
+            - tests
+      - build:
+          requires:
+            - commit
+      - deploy:
+          requires:
+            - build
+
+jobs:
+  tests:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - checkout
+      # Add your test steps here
+      - run:
+          name: Install dependencies and run tests
+          command: |
+            echo "Installing dependencies..."
+            pip install -r requirements.txt
+            python manage.py test lorenzo_barone | tee test-results.txt
+            test_result=$?
+            if [ $test_result -ne 0 ]; then
+              echo "Tests failed. Halting pipeline..."
+              circleci step halt
+            fi
+
+  commit:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - checkout
+      # Add your commit steps here
+      - run:
+          name: Commit changes
+          command: |
+            echo "Committing changes..."
+            # Insert your commit commands here
+
+  build:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+
+      - run:
+          name: Run database migrations
+          command: |
+            python manage.py migrate
+
+      - run:
+          name: Collect static files
+          command: |
+            python manage.py collectstatic --noinput
+  
+
+  deploy:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - checkout
+      # Add your deployment steps here
+      - run:
+          name: Deploy to production
+          command: |
+            echo "success"
