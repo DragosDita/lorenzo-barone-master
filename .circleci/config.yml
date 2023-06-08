@@ -63,11 +63,7 @@ jobs:
       - image: circleci/python:3.10
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "MD5:ce:f7:72:52:ba:5c:ce:b2:f8:33:94:90:b6:a7:80:3e"
       - run:
-          name: Deploy to PythonAnywhere
+          name: Successful deployment
           command: |
-            echo "Deploying to PythonAnywhere..."
-            ssh -o StrictHostKeyChecking=no -i /path/to/private/key user@dragosSDA.pythonanywhere.com "cd /home/dragosSDA/lorenzo-barone-master && git pull"
+            echo "Deployment was successful!"

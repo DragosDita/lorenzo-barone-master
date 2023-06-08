@@ -7,6 +7,19 @@
 
 {% block content %}
 
+    <style>
+        .small-card {
+            height: 20%; /* Adjust as needed */
+            padding: 5px; /* Adjust as needed */
+            margin: 0 auto; /* Centers the card if width is less than 100% */
+        }
+
+        .small-card-img {
+            width: 100%; /* Adjust as needed */
+            height: 100%; /* Adjust as needed */
+        }
+    </style>
+
     <h1>{{ post.title }}</h1>
     <small>By:
         {{ post.author.first_name }}
@@ -24,22 +37,13 @@
     <hr>
     {{ post.body|safe }}
     <br/><br/>
-        {% if post.header_image %}
-            <img src="{{ post.header_image.url }}" class="img-fluid rounded mx-auto d-block">
+    {% if post.header_image %}
+        <img src="{{ post.header_image.url }}" class="img-fluid rounded mx-auto d-block">
 
-        {% endif %}
-
-
+    {% endif %}
 
     <hr>
     <br/>
-
-
-
-    {#    #}
-
-    {#    #}
-
 
     <form action="{% url 'like_post' post.pk %}" method="POST">
         {% csrf_token %}
@@ -59,17 +63,15 @@
     </form>
     <br/><br/>
 
-    <div class="card border-dark mb-3">
-
+    <div class="card border-dark mb-3 small-card">
         <div class="row no-gutter">
             <div class="col-md-2">
-
                 {% if post.author.profile.profile_pic %}
                     <img src="{{ post.author.profile.profile_pic.url }}"
-                         class="img-fluid rounded mx-auto d-block">
+                         class="img-fluid rounded mx-auto d-block small-card-img">
                 {% else %}
                     <img src="{% static 'lorenzo_barone/images/user.png' %}"
-                         class="img-fluid rounded mx-auto d-block">
+                         class="img-fluid rounded mx-auto d-block small-card-img">
                 {% endif %}
             </div>
             <div class="col-md-10">
@@ -107,7 +109,6 @@
         </div>
     </div>
 
-
     <br/>
     <h2>Comments</h2>
     <br/>
@@ -129,7 +130,4 @@
     {% endif %}
     <br/>
 
-
-
-    <br/><br/>
 {% endblock %}
