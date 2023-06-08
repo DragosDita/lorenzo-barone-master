@@ -16,11 +16,6 @@ from pathlib import Path
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# TOOK FROM INTERNET!!
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -29,8 +24,6 @@ SECRET_KEY = 'django-insecure-f0+a^yui-yxa!_xg!xkn5tje)z5$3jsjvlnu4^8$)4c6wo9_b@
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-#  PENTRU ORICE DOMENIU/HOST TREBUIE TRECUT IN LISTA DE MAI JOS (ALLOWED_HOSTS) GG EZ!
 
 ALLOWED_HOSTS = ['lorenzobarone98.pythonanywhere.com', '127.0.0.1', 'localhost', 'lorenzobarone.pythonanywhere.com']
 
@@ -44,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lorenzo_barone.apps.LorenzoBaroneConfig',
-    # 'lorenzo_barone',
     'members',
     'ckeditor',
 ]
@@ -85,7 +77,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
     }
 }
 
@@ -127,7 +118,7 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # The static files will be collected here
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
