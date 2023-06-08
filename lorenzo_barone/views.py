@@ -6,6 +6,7 @@ from .forms import PostForm, EditForm, CommentForm
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import (PermissionRequiredMixin)
+from django.core.paginator import Paginator
 
 
 # def home(request):
@@ -25,17 +26,32 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse_lazy('article-detail', args=[str(pk)]))
 
 
+
+
+
 class HomeView(ListView):
     model = Post
     template_name = 'home.html'
-    ordering = ['-id']  # ordine da 10 a 1 invece che da 1 a 10
-
-    # ordering = ['-post_date']  # ordinea zilei descrescatoare , de la cel mai recent la cel mai putin recent
+    ordering = ['-id']  # order from 10 to 1 instead of 1 to 10
 
     def get_context_data(self, *args, **kwargs):
         cat_menu = Category.objects.all()
         context = super(HomeView, self).get_context_data(*args, **kwargs)
+
+        # Start Pagination
+        paginator = Paginator(self.object_list, 5)  # Show 5 cards per page
+
+        # Get the page number from the query string
+        # (i.e., '?page=3')
+        page = self.request.GET.get('page')
+
+        # Get the appropriate page
+        page_obj = paginator.get_page(page)
+
         context["cat_menu"] = cat_menu
+        context['page_obj'] = page_obj  # Add 'page_obj' to context
+        # End Pagination
+
         return context
 
 
