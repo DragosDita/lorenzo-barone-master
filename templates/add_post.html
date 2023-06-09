@@ -4,6 +4,18 @@
 {% endblock %}
 {% block content %}
 
+    <style>
+        @media (max-width: 767px) {
+            /* Styles for screens smaller than 768px wide */
+            .form-group {
+                margin-bottom: 10px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
 
     <h1>Add Post</h1>
     <br/><br/>
@@ -11,19 +23,14 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.media }}
-{#           {{ form.media }} in pythonanywhere nu mi citeste comanda respectiva#}
             {{ form.as_p }}
             <button class="btn btn-secondary">Post</button>
         </form>
-
-
     </div>
-
 
     <script>
         let name = "{{ user.id}}";
         document.getElementById("user").value = name;
     </script>
-
 
 {% endblock %}
