@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-f0+a^yui-yxa!_xg!xkn5tje)z5$3jsjvlnu4^8$)4c6wo9_b@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['lorenzobarone98.pythonanywhere.com', '127.0.0.1', 'localhost', 'dragossda.pythonanywhere.com',
                  'lorenzobarone.pythonanywhere.com']

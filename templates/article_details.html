@@ -18,6 +18,17 @@
             width: 100%; /* Adjust as needed */
             height: 100%; /* Adjust as needed */
         }
+
+        .small-image {
+            max-width: 50%;
+            max-height: 50%;
+            cursor: pointer;
+        }
+
+        .dark-card {
+            background-color: #343a40; /* match the color to your site */
+            color: #ffffff; /* Change text color to white for contrast */
+        }
     </style>
 
     <h1>{{ post.title }}</h1>
@@ -28,8 +39,8 @@
 
         {% if user.is_authenticated %}
             {% if user.id == post.author.id %}
-                - <a href="{% url 'update_post' post.pk %}">Edit</a>
-                <a href="{% url 'delete_post' post.pk %}">Delete</a>
+                - <a href="{% url 'update_post' post.pk %}" class="btn btn-outline-light">Edit</a>
+                <a href="{% url 'delete_post' post.pk %}" class="btn btn-outline-light">Delete</a>
             {% endif %}
         {% endif %}
 
@@ -38,8 +49,8 @@
     {{ post.body|safe }}
     <br/><br/>
     {% if post.header_image %}
-        <img src="{{ post.header_image.url }}" class="img-fluid rounded mx-auto d-block">
-
+        <!-- Apply new class to image and add JS to open image in new tab -->
+        <img src="{{ post.header_image.url }}" class="img-fluid rounded mx-auto d-block small-image" onclick="window.open(this.src)">
     {% endif %}
 
     <hr>
@@ -56,14 +67,14 @@
                 </button>
             {% endif %}
         {% else %}
-            <small><a href="{% url 'login' %}">Login</a> to like</small>
+            <small><a href="{% url 'login' %}" class="btn btn-outline-light">Login</a> to like</small>
         {% endif %}
         - {{ total_likes }} Likes
 
     </form>
     <br/><br/>
 
-    <div class="card border-dark mb-3 small-card">
+    <div class="card border-dark mb-3 small-card dark-card">
         <div class="row no-gutter">
             <div class="col-md-2">
                 {% if post.author.profile.profile_pic %}
@@ -82,23 +93,22 @@
                     </h5>
                     <p class="small text-muted">
                         {% if post.author.profile.id %}
-                            <a href="{% url 'show_profile_page' post.author.profile.id %}">Profile Page</a>
+                            <a href="{% url 'show_profile_page' post.author.profile.id %}" class="btn btn-outline-light">Profile Page</a>
                         {% endif %}
 
                         {% if post.author.profile.website_url %}
-                            |  <a href="{{ post.author.profile.website_url }}">Website</a>
+                            |  <a href="{{ post.author.profile.website_url }}" class="btn btn-outline-light">Website</a>
                         {% endif %}
                         {% if post.author.profile.facebook_url %}
-                            | <a href="{{ post.author.profile.facebook_url }}">Facebook</a>
+                            | <a href="{{ post.author.profile.facebook_url }}" class="btn btn-outline-light">Facebook</a>
                         {% endif %}
                         {% if post.author.profile.instagram_url %}
-                            | <a href="{{ post.author.profile.instagram_url }}">Instagram</a>
-                            {% if post.author.profile.youtube_url %}
-                            {% endif %}
-                            | <a href="{{ post.author.profile.youtube_url }}">Youtube</a>
+                            | <a href="{{ post.author.profile.instagram_url }}" class="btn btn-outline-light">Instagram</a>
+                        {% if post.author.profile.youtube_url %}
+                        {% endif %}
+                        | <a href="{{ post.author.profile.youtube_url }}" class="btn btn-outline-light">Youtube</a>
                         {% endif %}
                     </p>
-
 
                     <p class="card-text">
                         {{ post.author.profile.bio }}
@@ -113,10 +123,10 @@
     <h2>Comments</h2>
     <br/>
     {% if not post.comments.all %}
-        No Comments Yet...<a href="{% url 'add_comment' post.pk %}">Add one</a>
+        No Comments Yet...<a href="{% url 'add_comment' post.pk %}" class="btn btn-outline-light">Add one</a>
         <br/><br/>
     {% else %}
-        <a href="{% url 'add_comment' post.pk %} ">Add Comment</a>
+        <a href="{% url 'add_comment' post.pk %}" class="btn btn-outline-light">Add Comment</a>
         <br/><br/>
         {% for comment in post.comments.all %}
             <strong>

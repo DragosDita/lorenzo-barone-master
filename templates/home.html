@@ -3,82 +3,126 @@
 {% block content %}
 <main>
     <style>
+        body {
+            background-color: rgb(8, 32, 50);
+        }
+
         .card-img-top {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
         }
 
-        .info {
-            text-align: center;
+        .card-img-top.loaded {
+            opacity: 1;
         }
 
-        /* Additional style for card */
-        .custom-card {
-            border-radius: 12px; /* Updated border radius */
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            /* Gradient background for a shiny look */
-            background: linear-gradient(to right, #f2f2f2, #ffffff);
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform .2s, box-shadow .2s;
+            background: rgb(44, 57, 75);
+            color: #f2f2f2; /* Setting text color to light gray */
         }
 
-        /* Additional style for card image */
-        .custom-card-img {
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 5px 2.5px #FF4C29;
         }
 
-        /* Additional style for pagination */
+        .card-text {
+            color: inherit; /* Make the text color same as parent element */
+        }
+
+        .card-title a, .card-footer a {
+            color: rgb(255, 76, 41);
+        }
+
         .pagination {
             margin: 20px 0;
         }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgb(51, 71, 86);
+            color: inherit; /* Make the text color same as parent element */
+        }
+
+        .btn-primary {
+            background-color: rgb(255, 76, 41);
+            border-color: rgb(255, 76, 41);
+        }
+
+        .card-container {
+            max-width: 500px;
+            margin: auto;
+        }
     </style>
 
-    <!-- Add this for centering -->
-    <div class="d-flex justify-content-center">
-
-        <!-- Using Bootstrap grid system -->
-        <div class="col-md-6">
-            {% for post in page_obj %}
-                <!-- Removed the outer card -->
-                <div class="card mb-3 custom-card">
-                    <!-- Apply the custom-card-img class to the image -->
-                    <img src="{{ post.header_image.url }}" class="card-img-top custom-card-img" alt="{{ post.title }}">
-                    <div class="card-body">
-                        <h5>
-                            <a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a> -
-                            <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a>
-                        </h5>
-                        <p class="card-text">{{ post.body|slice:":300"|safe }}</p>
-                        <a href="{% url 'article-detail' post.pk %}">...see more</a>
-                        <br/><br/>
-                        <p class="card-text"><small class="text-muted">By:
-                            {{ post.author.first_name }}
-                            {{ post.author.last_name }} - {{ post.post_date }}</small></p>
-                    </div>
+    <div class="card-container">
+        {% for post in page_obj %}
+        <div class="col-12 mb-4">
+            <div class="card">
+                <img onload="this.classList.add('loaded');" src="{{ post.header_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'article-detail' post.pk %}" class="text-decoration-none">{{ post.title }}</a>
+                    </h5>
+                    <p class="card-text">{{ post.body|slice:":400"|safe }}</p>
+                    <a href="{% url 'article-detail' post.pk %}" class="btn btn-primary btn-sm">Read more</a>
                 </div>
-                <br/>
-            {% endfor %}
+                <div class="card-footer">
+                    <small>
+                        By: <a href="#" class="text-decoration-none">{{ post.author.first_name }} {{ post.author.last_name }}</a>
+                    </small>
+                    <small>{{ post.post_date }}</small>
+                </div>
+            </div>
         </div>
+        {% endfor %}
     </div>
-    <!-- Moved the pagination outside -->
+
     <div class="pagination d-flex justify-content-center">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">First</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="page-item disabled">
+                    <a class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Last</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
-
 </main>
 
 {% endblock %}

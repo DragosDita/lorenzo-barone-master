@@ -5,14 +5,40 @@
 {% block content %}
 
     <style>
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            box-sizing: border-box;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #343a40;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .form-group button:hover {
+            background-color: #5a6268;
+        }
+
         @media (max-width: 767px) {
             /* Styles for screens smaller than 768px wide */
             .form-group {
                 margin-bottom: 10px;
-            }
-
-            .btn {
-                width: 100%;
             }
         }
     </style>
@@ -29,7 +55,7 @@
     </div>
 
     <script>
-        let name = "{{ user.id}}";
+        let name = "{{ user.id }}";
         document.getElementById("user").value = name;
     </script>
 
