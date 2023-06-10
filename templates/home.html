@@ -40,9 +40,29 @@
             color: rgb(255, 76, 41);
         }
 
-        .pagination {
-            margin: 20px 0;
-        }
+         .pagination {
+        margin: 20px 0;
+    }
+
+    .pagination .page-item .page-link {
+        border: none;
+        color: #f2f2f2; /* Setting text color to light gray */
+        background-color: rgb(44, 57, 75);
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #FF4C29;
+        color: #f2f2f2;
+    }
+
+    .pagination .page-item .page-link:hover {
+        background-color: #FF4C29;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        color: #f2f2f2;
+        background-color: rgba(44, 57, 75, 0.5); /* Less opaque */
+    }
 
         .card-footer {
             display: flex;
