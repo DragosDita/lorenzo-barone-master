@@ -1,6 +1,6 @@
 from django.contrib.auth.views import redirect_to_login
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView  # added TemplateView
 from .models import Post, Category, Comment
 from .forms import PostForm, EditForm, CommentForm
 from django.urls import reverse_lazy
@@ -8,10 +8,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import (PermissionRequiredMixin)
 from django.core.paginator import Paginator
 
-
-# def home(request):
-#   return render(request, 'home.html', {})
-
+class MapView(TemplateView):
+    template_name = "map.html"
 
 def LikeView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
@@ -26,32 +24,21 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse_lazy('article-detail', args=[str(pk)]))
 
 
-
-
-
 class HomeView(ListView):
     model = Post
     template_name = 'home.html'
-    ordering = ['-id']  # order from 10 to 1 instead of 1 to 10
+    ordering = ['-id']
 
     def get_context_data(self, *args, **kwargs):
         cat_menu = Category.objects.all()
         context = super(HomeView, self).get_context_data(*args, **kwargs)
 
-        # Start Pagination
-        paginator = Paginator(self.object_list, 5)  # Show 5 cards per page
-
-        # Get the page number from the query string
-        # (i.e., '?page=3')
+        paginator = Paginator(self.object_list, 5)
         page = self.request.GET.get('page')
-
-        # Get the appropriate page
         page_obj = paginator.get_page(page)
 
         context["cat_menu"] = cat_menu
-        context['page_obj'] = page_obj  # Add 'page_obj' to context
-        # End Pagination
-
+        context['page_obj'] = page_obj
         return context
 
 
@@ -60,10 +47,9 @@ def CategoryListView(request):
     return render(request, 'category_list.html', {'cat_menu_list': cat_menu_list})
 
 
-def CategoryView(request, cats):  # todo snakecase!
+def CategoryView(request, cats):
     category_posts = Post.objects.filter(category=cats.replace('-', ' '))
-    return render(request, 'categories.html',
-                  {'cats': cats.title().replace('-', ' '), 'category_posts': category_posts})
+    return render(request, 'categories.html', {'cats': cats.title().replace('-', ' '), 'category_posts': category_posts})
 
 
 class ArticleDetailView(DetailView):
@@ -86,21 +72,6 @@ class ArticleDetailView(DetailView):
         context["liked"] = liked
         return context
 
-
-# add post ala bun
-# class AddPostView(CreateView):
-#     model = Post
-#     form_class = PostForm
-#     template_name = 'add_post.html'
-#
-#     # fields = '__all__'
-#     #
-
-
-# add post permission
-
-
-# todo DE aici incepe UserAccess !!
 
 class UserAccessMixin(PermissionRequiredMixin):
     def __init__(self):
@@ -125,17 +96,11 @@ class AddPostView(UserAccessMixin, CreateView):
     form_class = PostForm
     template_name = 'add_post.html'
 
-    # fields = '__all__'
-
-
-
-
 
 class UpdatePostView(UpdateView):
     model = Post
     form_class = EditForm
     template_name = 'update_post.html'
-    # fields = ['title', 'title_tag', 'body']
 
 
 class DeletePostView(DeleteView):
@@ -149,14 +114,11 @@ class AddCommentView(CreateView):
     form_class = CommentForm
     template_name = 'add_comment.html'
 
-    # fields = '__all__'
     def form_valid(self, form):
         form.instance.post_id = self.kwargs['pk']
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse_lazy('article-detail', kwargs={'pk': self.object.post_id})
-    # success_url = reverse_lazy('home')
+    success_url = reverse_lazy('home')
 
 
 class AddCategoryView(UserAccessMixin, CreateView):

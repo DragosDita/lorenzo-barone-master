@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Map
+{% endblock %}
+
+{% block content %}
+    <!-- Add the Leaflet CSS -->
+    <link rel="stylesheet" href="{% static 'leaflet/dist/leaflet.css' %}"/>
+
+    <!-- This is where your map will be displayed -->
+    <div id="mapid" style="height: 600px;"></div>
+
+    <!-- Add the Leaflet JS -->
+    <script src="{% static 'leaflet/dist/leaflet.js' %}"></script>
+
+    <script>
+        // Create a map and center it to Paris
+        var map = L.map('mapid').setView([48.8566, 2.3522], 6);
+
+        // Add the OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+    </script>
+{% endblock %}
